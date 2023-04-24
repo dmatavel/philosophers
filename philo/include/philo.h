@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 18:52:05 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/22 20:15:56 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/24 17:06:26 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define SUCCESS 0
 # define MIN_NUM_OF_PHILOS 1
 # define MAX_NUM_OF_PHILOS 200
+# define INT_MAX 2147483647
+# define INT_MIN -2147483648
 
 typedef	pthread_mutex_t mtx;
 typedef struct	s_philo t_philo;
@@ -57,6 +59,7 @@ typedef struct	s_data
 	mtx				lock_died;
 	mtx				lock_meal;
 	mtx				lock_done;
+	mtx				lock_print;
 }						t_data;
 
 /* utils.c */
@@ -70,10 +73,11 @@ void	init_philos(t_data *data);
 void	init_mutexes(t_data *data);
 void	join_threads(t_data *data);
 void	init(t_data *data, int argc, char **argv);
-int		init_monitor(t_data *data);
+void	*init_monitor(t_data *data);
 
 /* routine.c */
-void	*routine(void *ph);
+void	one_philo_case(t_philo *philo);
+void	*routine(t_philo *philo);
 
 /* actions.c */
 void	print_dead_philo(t_philo *philo, char *action);

@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 12:08:58 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/22 20:16:18 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:22:04 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	destroy_mutexes(t_data *data)
 	pthread_mutex_destroy(&data->lock_died);
 	pthread_mutex_destroy(&data->lock_meal);
 	pthread_mutex_destroy(&data->lock_done);
+	pthread_mutex_destroy(&data->lock_print);
 }
 
 void	detach_threads(t_data *data)

@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 15:11:37 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/22 20:17:23 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/24 17:31:30 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	init_philos(t_data *data)
 		data->philo[i].last_meal = 0;
 		data->philo[i].meals_counter = 0;
 		data->philo[i].data = data;
-		pthread_create(&data->philo[i].thread, NULL, &routine, &data->philo[i]);
+		pthread_create(&data->philo[i].thread, NULL, (void *)routine, &data->philo[i]);
 		i++;
 	}
 }
@@ -63,6 +63,7 @@ void	init_mutexes(t_data *data)
 	pthread_mutex_init(&data->lock_died, NULL);
 	pthread_mutex_init(&data->lock_meal, NULL);
 	pthread_mutex_init(&data->lock_done, NULL);
+	pthread_mutex_init(&data->lock_print, NULL);
 }
 
 void	join_threads(t_data *data)
@@ -77,32 +78,36 @@ void	join_threads(t_data *data)
 	}
 }
 
-int	init_monitor(t_data *data)
+void	*init_monitor(t_data *data)
 {
-    int i;
-
-    i = 0;
+	int	i;
+	
+	if (data->n_philos == 1)
+	{
+		one_philo_case(data->philo);
+		return (NULL);
+	}
+	i = 0;
 	usleep(100);
-    while (1)
-    {
+	while (1)
+	{
 		if (i == data->n_philos)
 			i = 0;
-		
 		if (data->done == data->n_philos)
 			break ;
 		pthread_mutex_lock(&data->lock_meal);
-        if ((time_now(&data->philo[i]) - data->philo[i].last_meal) >= data->time_to_die)
+		if (((time_now(&data->philo[i]) - data->philo[i].last_meal) >= data->time_to_die))
 		{
 			pthread_mutex_lock(&data->lock_died);
-            data->died = 1;
+			data->died = 1;
 			print_dead_philo(&data->philo[i], "died");
 			pthread_mutex_unlock(&data->lock_died);
 			pthread_mutex_unlock(&data->lock_meal);
-			return (1);
+			return (NULL);
 		}
 		i++;
 		pthread_mutex_unlock(&data->lock_meal);
 		usleep(100);
 	}
-	return (0);
+	return (NULL);
 }

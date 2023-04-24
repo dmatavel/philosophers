@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:40:57 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/14 10:33:17 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/24 16:34:15 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ int	ft_atoi(const char *str)
 		n = n * 10 + str[i] - 48;
 		i++;
 	}
+	if (n <= INT_MIN)
+		return (INT_MIN);
+	else if (n >= INT_MAX)
+		return (INT_MAX);
 	if (sign == 1)
 		n *= -1;
 	return (n);

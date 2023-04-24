@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 02:04:22 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/22 20:09:04 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/24 17:19:34 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,29 @@
 
 void	print_dead_philo(t_philo *philo, char *action)
 {
-	printf("%lu\t%d\t%s\n", time_now(philo),
-			philo->id, action);
+	pthread_mutex_lock(&philo->data->lock_print);
+	if (philo->data->done != philo->data->n_philos)
+	{
+		pthread_mutex_unlock(&philo->data->lock_print);
+		printf("%lu\t%d\t%s\n", time_now(philo),
+				philo->id, action);
+	}
+	pthread_mutex_unlock(&philo->data->lock_print);
 }
 
 void	print_action(t_philo *philo, char *action)
 {
-	printf("%lu\t%d\t%s\n", time_now(philo),
+	pthread_mutex_lock(&philo->data->lock_print);
+	pthread_mutex_lock(&philo->data->lock_died);
+	if (philo->data->died == 0)
+	{
+		pthread_mutex_unlock(&philo->data->lock_died);
+		pthread_mutex_unlock(&philo->data->lock_print);
+		printf("%lu\t%d\t%s\n", time_now(philo),
 			philo->id, action);
+	}
+	pthread_mutex_unlock(&philo->data->lock_died);
+	pthread_mutex_unlock(&philo->data->lock_print);
 }
 
 void	ft_eat(t_philo *philo)
@@ -31,9 +46,9 @@ void	ft_eat(t_philo *philo)
 	print_action(philo, "has taken a fork");
 	print_action(philo, "has taken a fork");
 	print_action(philo, "is eating");
-	usleep(philo->data->time_to_eat * 1000);
 	philo->meals_counter += 1;
 	philo->last_meal = time_now(philo);
+	usleep(philo->data->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }
