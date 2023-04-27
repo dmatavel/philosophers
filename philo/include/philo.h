@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 18:52:05 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/24 17:06:26 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/27 10:39:00 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ typedef struct	s_data
 }						t_data;
 
 /* utils.c */
-int	ft_isdigit(int c);
-int	ft_isspace(int c);
-int	ft_atoi(const char *str);
+int		ft_isdigit(int c);
+int		ft_isspace(int c);
+long	ft_atol(const char *str);
 
 /* init.c */
 void	init_data(t_data *data, int argc, char **argv);

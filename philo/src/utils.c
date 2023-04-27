@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:40:57 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/24 16:34:15 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/27 10:21:43 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	ft_isspace(int c)
 	return ((c >= 9 && c <= 13) || c == 32);
 }
 
-int	ft_atoi(const char *str)
+long	ft_atol(const char *str)
 {
-	int	i;
-	int	n;
-	int	sign;
+	long	i;
+	long	n;
+	int		sign;
 
 	i = 0;
 	n = 0;
@@ -44,10 +44,6 @@ int	ft_atoi(const char *str)
 		n = n * 10 + str[i] - 48;
 		i++;
 	}
-	if (n <= INT_MIN)
-		return (INT_MIN);
-	else if (n >= INT_MAX)
-		return (INT_MAX);
 	if (sign == 1)
 		n *= -1;
 	return (n);

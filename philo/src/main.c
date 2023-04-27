@@ -6,50 +6,38 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:00:41 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/24 17:27:44 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/27 10:38:08 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-static int	only_digits(char **argv)
+static int	only_digits(char *s)
 {
 	int	i;
-	int	j;
 
-	i = 1;
-	while (argv[i])
+	i = 0;
+	while (s[i])
 	{
-		j = 0;
-		while (argv[i][j])
-		{
-			if (!ft_isdigit(argv[i][j]))
-				return (FALSE);
-			j++;
-		}
+		if (!ft_isdigit(s[i]))
+			return (FALSE);
 		i++;
 	}
 	return (TRUE);
 }
 
-static int	int_off_limits(char	**s)
+static int	int_off_limits(char	*s)
 {
-	int	n;
-	int	i;
-	int j;
+	long	n;
+	long	i;
 
-	i = 1;
+	i = 0;
 	while (s[i])
 	{
-		j = 0;
-		while (s[i][j])
-		{
-			n = ft_atoi(&s[i][j]);
-			if (n >= MIN_NUM_OF_PHILOS
-				&& n <= INT_MAX)
-				return (FALSE);
-			j++;
-		}
+		n = ft_atol(s);
+		if (n >= MIN_NUM_OF_PHILOS
+			&& n <= INT_MAX)
+			return (FALSE);
 		i++;
 	}
 	return (TRUE);
@@ -57,11 +45,18 @@ static int	int_off_limits(char	**s)
 
 static int	check_valid_inputs(char **argv)
 {
-	if ((only_digits(argv) == TRUE)
-		&& (int_off_limits(argv) == FALSE))
-		return (SUCCESS);
-	else
-		return (FAILURE);
+	int	i;
+
+	i = 1;
+	while (argv[i])
+	{
+
+		if (!only_digits(&argv[i][0])
+			|| int_off_limits(&argv[i][0]))
+			return (FAILURE);
+		i++;
+	}
+	return (SUCCESS);
 }
 
 int	main(int argc, char **argv)
@@ -73,8 +68,14 @@ int	main(int argc, char **argv)
 	{
 		init_data(&data, argc, argv);
 		init_mutexes(&data);
-		init_philos(&data);	
-		init_monitor(&data);
+		init_philos(&data);
+		if (data.n_philos == 1)
+		{
+			one_philo_case(data.philo);
+			return (SUCCESS);
+		}
+		else
+			init_monitor(&data);
 		join_threads(&data);
 		finish(&data);
 	}

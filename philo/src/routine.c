@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 11:40:39 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/24 17:32:59 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/27 09:48:45 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,19 @@ void	actions(t_philo *philo)
 
 void	*routine(t_philo *philo)
 {
-	if (philo->data->n_philos > 1)
-	{
-		if ((philo->id % 2) == 0)
-			usleep(100);
-		while (1)
-		{
-			pthread_mutex_lock(&philo->data->lock_died);
-			if (philo->data->died == 1)
-				break ;
-			pthread_mutex_unlock(&philo->data->lock_died);
-			pthread_mutex_unlock(&philo->data->lock_done);
-			if (philo->data->must_eat == philo->meals_counter)
-			{
-				philo->data->done += 1;
-				pthread_mutex_unlock(&philo->data->lock_done);
-				return (NULL);
-			}
-			pthread_mutex_unlock(&philo->data->lock_done);
-			actions(philo);
-		}
+	if ((philo->id % 2) == 0)
+		usleep(100);
+	while (1)
+	{	
+		if (philo->meals_counter == philo->data->must_eat)
+			return (NULL);
+		pthread_mutex_lock(&philo->data->lock_died);
+		if (philo->data->died == 1)
+			break ;
 		pthread_mutex_unlock(&philo->data->lock_died);
+		actions(philo);
 	}
+	pthread_mutex_unlock(&philo->data->lock_died);
+
 	return (NULL);
 }

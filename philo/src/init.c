@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 15:11:37 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/24 17:31:30 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/27 10:23:19 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	init_data(t_data *data, int argc, char **argv)
 {
-	data->n_philos = ft_atoi(argv[1]);
-	data->time_to_die = ft_atoi(argv[2]);
-	data->time_to_eat = ft_atoi(argv[3]);
-	data->time_to_sleep = ft_atoi(argv[4]);
+	data->n_philos = ft_atol(argv[1]);
+	data->time_to_die = ft_atol(argv[2]);
+	data->time_to_eat = ft_atol(argv[3]);
+	data->time_to_sleep = ft_atol(argv[4]);
 	if (argc == 6)
-		data->must_eat = ft_atoi(argv[5]);
+		data->must_eat = ft_atol(argv[5]);
 	else
 		data->must_eat = -1;
 	data->start_time = get_current_time();
@@ -82,32 +82,24 @@ void	*init_monitor(t_data *data)
 {
 	int	i;
 	
-	if (data->n_philos == 1)
-	{
-		one_philo_case(data->philo);
-		return (NULL);
-	}
 	i = 0;
 	usleep(100);
 	while (1)
 	{
 		if (i == data->n_philos)
 			i = 0;
-		if (data->done == data->n_philos)
+		if (data->philo[i].meals_counter == data->must_eat)
 			break ;
-		pthread_mutex_lock(&data->lock_meal);
+		pthread_mutex_lock(&data->lock_died);
 		if (((time_now(&data->philo[i]) - data->philo[i].last_meal) >= data->time_to_die))
 		{
-			pthread_mutex_lock(&data->lock_died);
 			data->died = 1;
 			print_dead_philo(&data->philo[i], "died");
 			pthread_mutex_unlock(&data->lock_died);
-			pthread_mutex_unlock(&data->lock_meal);
 			return (NULL);
 		}
 		i++;
-		pthread_mutex_unlock(&data->lock_meal);
-		usleep(100);
+		pthread_mutex_unlock(&data->lock_died);
 	}
 	return (NULL);
 }

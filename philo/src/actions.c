@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 02:04:22 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/24 17:19:34 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/27 03:52:18 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 
 void	print_dead_philo(t_philo *philo, char *action)
 {
-	pthread_mutex_lock(&philo->data->lock_print);
-	if (philo->data->done != philo->data->n_philos)
-	{
-		pthread_mutex_unlock(&philo->data->lock_print);
-		printf("%lu\t%d\t%s\n", time_now(philo),
-				philo->id, action);
-	}
+	pthread_mutex_unlock(&philo->data->lock_print);
+	printf("%lu\t%d\t%s\n", time_now(philo),
+			philo->id, action);
 	pthread_mutex_unlock(&philo->data->lock_print);
 }
 
