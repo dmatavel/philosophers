@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 11:40:39 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/27 09:48:45 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/28 12:06:54 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,21 @@ void	*routine(t_philo *philo)
 	if ((philo->id % 2) == 0)
 		usleep(100);
 	while (1)
-	{	
+	{
+		pthread_mutex_lock(&philo->data->lock_meal);	
 		if (philo->meals_counter == philo->data->must_eat)
+		{
+			pthread_mutex_unlock(&philo->data->lock_meal);
 			return (NULL);
+		}
+		pthread_mutex_unlock(&philo->data->lock_meal);
 		pthread_mutex_lock(&philo->data->lock_died);
 		if (philo->data->died == 1)
 			break ;
 		pthread_mutex_unlock(&philo->data->lock_died);
 		actions(philo);
 	}
+	pthread_mutex_unlock(&philo->data->lock_meal);
 	pthread_mutex_unlock(&philo->data->lock_died);
 
 	return (NULL);

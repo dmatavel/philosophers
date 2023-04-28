@@ -3,7 +3,7 @@ SRCS = $(shell find $(SRC_PATH) -name "*.c")
 OBJS = $(SRCS:.c=.o)
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g
+CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)

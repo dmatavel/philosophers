@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 15:11:37 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/27 10:48:43 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/28 12:16:59 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,17 +88,23 @@ void	*init_monitor(t_data *data)
 	{
 		if (i == data->n_philos)
 			i = 0;
+		pthread_mutex_lock(&data->lock_meal);
 		if (data->philo[i].meals_counter == data->must_eat)
+		{	
+			pthread_mutex_unlock(&data->lock_meal);
 			break ;
+		}
 		if (((time_now(&data->philo[i]) - data->philo[i].last_meal) >= data->time_to_die))
 		{
 			pthread_mutex_lock(&data->lock_died);
 			data->died = 1;
 			print_dead_philo(&data->philo[i], "died");
+			pthread_mutex_unlock(&data->lock_meal);
 			pthread_mutex_unlock(&data->lock_died);
 			return (NULL);
 		}
 		i++;
+		pthread_mutex_unlock(&data->lock_meal);
 		usleep(100);
 	}
 	return (NULL);
