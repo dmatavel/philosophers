@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 11:40:39 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/28 12:06:54 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:22:42 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	*routine(t_philo *philo)
 		usleep(100);
 	while (1)
 	{
-		pthread_mutex_lock(&philo->data->lock_meal);	
+		pthread_mutex_lock(&philo->data->lock_meal);
 		if (philo->meals_counter == philo->data->must_eat)
 		{
 			pthread_mutex_unlock(&philo->data->lock_meal);
@@ -47,6 +47,5 @@ void	*routine(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->data->lock_meal);
 	pthread_mutex_unlock(&philo->data->lock_died);
-
 	return (NULL);
 }

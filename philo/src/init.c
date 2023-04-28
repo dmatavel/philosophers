@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 15:11:37 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/28 12:16:59 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:04:23 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	init_philos(t_data *data)
 		data->philo[i].last_meal = 0;
 		data->philo[i].meals_counter = 0;
 		data->philo[i].data = data;
-		pthread_create(&data->philo[i].thread, NULL, (void *)routine, &data->philo[i]);
+		pthread_create(&data->philo[i].thread, NULL,
+			(void *)routine, &data->philo[i]);
 		i++;
 	}
 }
@@ -78,11 +79,8 @@ void	join_threads(t_data *data)
 	}
 }
 
-void	*init_monitor(t_data *data)
+void	*init_monitor(t_data *data, int i)
 {
-	int	i;
-	
-	i = 0;
 	usleep(100);
 	while (1)
 	{
@@ -93,17 +91,17 @@ void	*init_monitor(t_data *data)
 		{	
 			pthread_mutex_unlock(&data->lock_meal);
 			break ;
-		}
-		if (((time_now(&data->philo[i]) - data->philo[i].last_meal) >= data->time_to_die))
+		}		
+		if (((time_now(&data->philo[i]) - data->philo[i].last_meal)
+				>= data->time_to_die))
 		{
 			pthread_mutex_lock(&data->lock_died);
 			data->died = 1;
-			print_dead_philo(&data->philo[i], "died");
-			pthread_mutex_unlock(&data->lock_meal);
+			print_dead_philo(&data->philo[i++], "died");
 			pthread_mutex_unlock(&data->lock_died);
+			pthread_mutex_unlock(&data->lock_meal);
 			return (NULL);
 		}
-		i++;
 		pthread_mutex_unlock(&data->lock_meal);
 		usleep(100);
 	}

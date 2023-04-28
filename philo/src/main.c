@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:00:41 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/27 10:38:08 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:09:49 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int	check_valid_inputs(char **argv)
 	i = 1;
 	while (argv[i])
 	{
-
 		if (!only_digits(&argv[i][0])
 			|| int_off_limits(&argv[i][0]))
 			return (FAILURE);
@@ -75,7 +74,7 @@ int	main(int argc, char **argv)
 			return (SUCCESS);
 		}
 		else
-			init_monitor(&data);
+			init_monitor(&data, 0);
 		join_threads(&data);
 		finish(&data);
 	}

@@ -6,18 +6,18 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 18:52:05 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/27 10:39:00 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:28:17 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <sys/time.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <pthread.h>
+# include <unistd.h>
+# include <sys/time.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -29,10 +29,10 @@
 # define INT_MIN -2147483648
 
 typedef	pthread_mutex_t mtx;
-typedef struct	s_philo t_philo;
-typedef struct	s_data t_data;
+typedef struct s_philo t_philo;
+typedef struct s_data t_data;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	unsigned long	start_time;
 	unsigned long	last_meal;
@@ -73,7 +73,7 @@ void	init_philos(t_data *data);
 void	init_mutexes(t_data *data);
 void	join_threads(t_data *data);
 void	init(t_data *data, int argc, char **argv);
-void	*init_monitor(t_data *data);
+void	*init_monitor(t_data *data, int i);
 
 /* routine.c */
 void	one_philo_case(t_philo *philo);
