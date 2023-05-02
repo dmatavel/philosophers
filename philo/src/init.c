@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 15:11:37 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/05/02 14:10:50 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:24:13 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	init_mutexes(t_data *data)
 	i = 0;
 	while (i < data->n_philos)
 	{
-		printf("n_philos: %d\n", data->n_philos);
 		pthread_mutex_init(&data->fork[i], NULL);
 		i++;
 	}
