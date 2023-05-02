@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:00:41 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/28 14:09:49 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:13:09 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,24 @@ static int	check_valid_inputs(char **argv)
 
 int	main(int argc, char **argv)
 {
-	t_data	data;
+	t_data	*data;
 
 	if ((argc == 5 || argc == 6)
 		&& (check_valid_inputs(argv) == SUCCESS))
 	{
-		init_data(&data, argc, argv);
-		init_mutexes(&data);
-		init_philos(&data);
-		if (data.n_philos == 1)
+		data = malloc(sizeof(t_data));
+		init_data(data, argc, argv);
+		init_mutexes(data);
+		init_philos(data);
+		if (data->n_philos == 1)
 		{
-			one_philo_case(data.philo);
+			one_philo_case(data->philo);
 			return (SUCCESS);
 		}
 		else
-			init_monitor(&data, 0);
-		join_threads(&data);
-		finish(&data);
+			init_monitor(data, 0);
+		join_threads(data);
+		finish(data);
 	}
 	else
 		return (FAILURE);

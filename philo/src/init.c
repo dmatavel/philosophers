@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 15:11:37 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/05/02 11:53:15 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:10:50 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_data(t_data *data, int argc, char **argv)
 	data->died = 0;
 	data->done = 0;
 	data->philo = malloc(sizeof(t_philo) * data->n_philos);
-	data->fork = malloc(sizeof(t_philo) * data->n_philos);
+	data->fork = malloc(sizeof(t_mtx) * data->n_philos);
 }
 
 void	init_philos(t_data *data)
@@ -58,6 +58,7 @@ void	init_mutexes(t_data *data)
 	i = 0;
 	while (i < data->n_philos)
 	{
+		printf("n_philos: %d\n", data->n_philos);
 		pthread_mutex_init(&data->fork[i], NULL);
 		i++;
 	}
