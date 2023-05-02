@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 02:04:22 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/28 14:09:12 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/05/02 13:07:18 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_eat(t_philo *philo)
 	philo->meals_counter += 1;
 	philo->last_meal = time_now(philo);
 	pthread_mutex_unlock(&philo->data->lock_meal);
-	usleep(philo->data->time_to_eat * 1000);
+	smart_sleep(philo->data->time_to_eat, philo);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }
@@ -54,7 +54,7 @@ void	ft_eat(t_philo *philo)
 void	ft_sleep(t_philo *philo)
 {
 	print_action(philo, "is sleeping");
-	usleep(philo->data->time_to_sleep * 1000);
+	smart_sleep(philo->data->time_to_sleep, philo);
 }
 
 void	ft_think(t_philo *philo)

@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 15:11:37 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/04/28 14:04:23 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/05/02 11:53:15 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	init_mutexes(t_data *data)
 	}
 	pthread_mutex_init(&data->lock_died, NULL);
 	pthread_mutex_init(&data->lock_meal, NULL);
-	pthread_mutex_init(&data->lock_done, NULL);
 	pthread_mutex_init(&data->lock_print, NULL);
 }
 
