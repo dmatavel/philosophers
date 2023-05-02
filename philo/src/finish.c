@@ -6,7 +6,7 @@
 /*   By: dmatavel <dmatavel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 12:08:58 by dmatavel          #+#    #+#             */
-/*   Updated: 2023/05/02 14:15:43 by dmatavel         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:18:01 by dmatavel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	clear_memory(t_data *data)
 		free(data->fork);
 	if (data->philo != NULL)
 		free(data->philo);
-	if	(data != NULL)
+	if (data != NULL)
 		free(data);
 }
 
